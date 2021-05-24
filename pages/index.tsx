@@ -32,9 +32,9 @@ export default function Home() {
   // We could also use lodash's reduce on objects and create
   // different data structures with it
   const objectFromArray = users.reduce(
-    (acc, value) => ({
+    (acc, value, index) => ({
       ...acc,
-      index: value
+      [index]: value
     }),
     {}
   );
