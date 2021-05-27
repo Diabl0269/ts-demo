@@ -38,6 +38,7 @@ export default function Home() {
     }),
     {}
   );
+  console.log("objectFromArray", objectFromArray);
 
   const usersWithColors = useMemo(
     () =>
@@ -48,12 +49,8 @@ export default function Home() {
     [colors, users]
   );
 
-  console.log("objectFromArray", objectFromArray);
   useEffect(() => {
-    (async () => {
-      const usersRes = await getUsers();
-      setUsers(usersRes);
-    })();
+    getUsers().then(setUsers);
   }, []);
 
   return (

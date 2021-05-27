@@ -100,7 +100,23 @@ const smallInterfaceVar: SmallInterface = {
   }
 };
 
-// We can create a type from using definitions of other types
+// There are 2 ways of declaring arrays
+type array1 = Array<SmallInterface>;
+type array2 = SmallInterface[]; // This is our preferred way
+
+const varFromTypeArray: array1 = [
+  {
+    name: "",
+    randomStuff: {
+      arrayStuff: 0
+    },
+    randomStuffRecord: {
+      moreArrayStuff: ""
+    }
+  }
+];
+
+// We can create a type by using definitions of other types
 type WithLastType = {
   a: SmallInterface["randomStuff"];
 };
@@ -112,20 +128,20 @@ const withLastTypeVar: WithLastType = {
 };
 
 enum EnumWithNumbers {
-  A,
-  B
+  MALE,
+  FEMALE
 }
 
-const itemFromEnumWithNumbers: EnumWithNumbers = EnumWithNumbers.A;
+const itemFromEnumWithNumbers: EnumWithNumbers = EnumWithNumbers.MALE;
 // console.log("itemFromActualEnum", itemFromEnumWithNumbers); // Will print "0"
 
 enum EnumWithValues {
-  A = "A",
-  B = "B"
+  MALE = "MALE",
+  FEMALE = "FEMALE"
 }
 
-const itemFromEnumWithValues: EnumWithValues = EnumWithValues.A;
-// console.log("itemFromEnumWithValues", itemFromEnumWithValues); // Will print "A"
+const itemFromEnumWithValues: EnumWithValues = EnumWithValues.FEMALE;
+// console.log("itemFromEnumWithValues", itemFromEnumWithValues); // Will print "FEMALE"
 
 /*
 Type literal is like an enum, but you can't access directly its values as the actual enum type
@@ -171,7 +187,9 @@ As you know js consts are mutable, by using this type we can prevent it
 type ReadonlySmallInterface = Readonly<SmallInterface>;
 const readOnlySmallInterfaceVar: ReadonlySmallInterface = {
   name: "",
-  randomStuff: {},
+  randomStuff: {
+    a: 1
+  },
   randomStuffRecord: {}
 };
 
@@ -179,6 +197,7 @@ const readOnlySmallInterfaceVar: ReadonlySmallInterface = {
 readOnlySmallInterfaceVar.name = "1";
 
 // Notice that the nested objects are still mutable, to prevent that we need to declare them as Readonly as well!
+readOnlySmallInterfaceVar.randomStuff.a = 2;
 
 // As noted before, we can use record to declare specific types of objects
 type RecordWithSpecificValues = Record<TypeLiteral, SmallInterface>;
@@ -218,6 +237,7 @@ const excludedVar: ExcludedType = "mini";
 type NonNullableType = NonNullable<TypeLiteral | null>;
 type WithNull = TypeLiteral | null;
 
+// For this you must enable strictNullChecks
 // This works
 const withNull: WithNull = null;
 // This produces an error
@@ -239,7 +259,9 @@ const func1: typeof f1 = (args) => {
 };
 
 // Or we can declare them inline like this
-const func = (args: { a: number; b: number }) => {};
+const func = (args: { a: number; b: number }) => {
+  return 0;
+};
 
 // 'Parameters' type will return an array of the parameters
 type ParamsFromF1 = Parameters<typeof f1>;
@@ -409,7 +431,51 @@ type A = {
   userApiCall: ApiCalls["users"];
   // We have 2 ways of defining arrays
   arr1: Array<User>;
-  arr2: User[];
+  arr2: User[]; // Preferred
+};
+
+const a: A = {
+  a: {
+    ini: {
+      name: "",
+      randomStuff: {},
+      randomStuffRecord: {},
+      a: "",
+      b: "",
+      optionalProp: 0
+    },
+    mini: {
+      name: "",
+      randomStuff: {},
+      randomStuffRecord: {},
+      a: "",
+      b: "",
+      optionalProp: 0
+    },
+    miny: {
+      name: "",
+      randomStuff: {},
+      randomStuffRecord: {},
+      a: "",
+      b: "",
+      optionalProp: 0
+    },
+    moe: {
+      name: "",
+      randomStuff: {},
+      randomStuffRecord: {},
+      a: "",
+      b: "",
+      optionalProp: 0
+    }
+  },
+  b: "name",
+  c: {
+    randomStuff: {}
+  },
+  userApiCall: async () => await [{ name: "", id: "" }],
+  arr1: [{ name: "", id: "" }],
+  arr2: [{ name: "", id: "" }]
 };
 
 export enum ApiRoutes {
