@@ -251,6 +251,11 @@ const extractedVar: ExtractedType = "ini";
 // Functions - There are a few ways to declare functions, we can declare them separately
 declare function f1(arg: { a: number; b: string }): number;
 
+// CHECK HOW TO PASS TYPE
+function f2(args: { a: number; b: string }) {
+  return 0;
+}
+
 // We can see that 'args' argument will already have 'a' and 'b'
 const func1: typeof f1 = (args) => {
   args.a;
@@ -266,7 +271,7 @@ const func = (args: { a: number; b: number }) => {
 // 'Parameters' type will return an array of the parameters
 type ParamsFromF1 = Parameters<typeof f1>;
 type ParamsFromFunc = Parameters<(a: string, b: number) => void>;
-const a: ParamsFromF1 = [{ a: 0, b: "" }];
+// const a: ParamsFromF1 = [{ a: 0, b: "" }];
 const b: ParamsFromFunc = ["", 0];
 
 /*  
@@ -393,6 +398,7 @@ type ExtendedType = SmallInterface &
     b: string;
   };
 
+// TODO: CHECK TYPES OVERRIDES
 interface ExtendedInterface extends SmallInterface, Interface {
   b: string;
 }
@@ -434,50 +440,75 @@ type A = {
   arr2: User[]; // Preferred
 };
 
-const a: A = {
-  a: {
-    ini: {
-      name: "",
-      randomStuff: {},
-      randomStuffRecord: {},
-      a: "",
-      b: "",
-      optionalProp: 0
-    },
-    mini: {
-      name: "",
-      randomStuff: {},
-      randomStuffRecord: {},
-      a: "",
-      b: "",
-      optionalProp: 0
-    },
-    miny: {
-      name: "",
-      randomStuff: {},
-      randomStuffRecord: {},
-      a: "",
-      b: "",
-      optionalProp: 0
-    },
-    moe: {
-      name: "",
-      randomStuff: {},
-      randomStuffRecord: {},
-      a: "",
-      b: "",
-      optionalProp: 0
-    }
-  },
-  b: "name",
-  c: {
-    randomStuff: {}
-  },
-  userApiCall: async () => await [{ name: "", id: "" }],
-  arr1: [{ name: "", id: "" }],
-  arr2: [{ name: "", id: "" }]
-};
+// const a: A = {
+//   a: {
+//     ini: {
+//       name: "",
+//       randomStuff: {},
+//       randomStuffRecord: {},
+//       a: "",
+//       b: "",
+//       optionalProp: 0
+//     },
+//     mini: {
+//       name: "",
+//       randomStuff: {},
+//       randomStuffRecord: {},
+//       a: "",
+//       b: "",
+//       optionalProp: 0
+//     },
+//     miny: {
+//       name: "",
+//       randomStuff: {},
+//       randomStuffRecord: {},
+//       a: "",
+//       b: "",
+//       optionalProp: 0
+//     },
+//     moe: {
+//       name: "",
+//       randomStuff: {},
+//       randomStuffRecord: {},
+//       a: "",
+//       b: "",
+//       optionalProp: 0
+//     }
+//   },
+//   b: "name",
+//   c: {
+//     randomStuff: {}
+//   },
+//   userApiCall: async () => await [{ name: "", id: "" }],
+//   arr1: [{ name: "", id: "" }],
+//   arr2: [{ name: "", id: "" }]
+// };
 
 export enum ApiRoutes {
   USERS = "/api/users"
 }
+
+// Overrides
+type C = {
+  a: string;
+};
+
+type D = Omit<C, "a"> & {
+  a: number;
+};
+
+const overridenVar: D = {
+  a: 0
+};
+
+interface E {
+  a: string;
+}
+
+interface G extends Omit<E, "a"> {
+  a: number;
+}
+
+const overridenType: G = {
+  a: 0
+};
